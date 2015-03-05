@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Race Queens</title>
+	<script type="text/javascript" charset="utf-8" src="js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.js"></script>
+	<script type="text/javascript">
+		var GalleryViewing = function() {};
+		
+		GalleryViewing.prototype.view = function(gallery, successCallback, failureCallback) {
+			return PhoneGap.exec(successCallback, failureCallback, 'GalleryViewPlugin', 'view', [gallery]);
+		};
+		
+		PhoneGap.addConstructor(function() {
+			PhoneGap.addPlugin("galleryViewing", new GalleryViewing());
+		});
+
+		document.addEventListener('deviceready', function() {
+			var btn = document.getElementById("image-gallery");
+			btn.onclick = function() {
+				window.plugins.galleryViewing.view("/", function(r){console.log(r)}, function(e){console.log(e)});
+			};
+			btn.disabled=false;
+		}, true);
+	</script>
+</head>
+<body>
+	<input disabled id="image-gallery" type="button" value="View Image Gallery" />
+</body>
+</html>
